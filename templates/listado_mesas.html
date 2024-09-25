@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Mesas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Listado de Mesas</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Número de Mesa</th>
+        </tr>
+    </thead>
+    <tbody id="mesas-list">
+        <!-- Aquí se cargarán las mesas -->
+    </tbody>
+</table>
+
+<script>
+    // Función para obtener la lista de mesas desde la API
+    async function obtenerMesas() {
+        try {
+            const response = await fetch('http://127.0.0.1:8000/api/mesas'); // Asegúrate de que la URL sea correcta
+            const mesas = await response.json();
+
+            // Obtener el elemento donde se mostrarán las mesas
+            const mesasList = document.getElementById('mesas-list');
+
+            // Vaciar el contenido actual
+            mesasList.innerHTML = '';
+
+            // Iterar sobre cada mesa y añadirla al DOM
+            mesas.forEach(mesa => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${mesa.id}</td>
+                    <td>${mesa.numero}</td>
+                `;
+                mesasList.appendChild(row);
+            });
+        } catch (error) {
+            console.error('Error obteniendo las mesas:', error);
+        }
+    }
+
+    // Llamar a la función cuando cargue la página
+    window.onload = obtenerMesas;
+</script>
+
+</body>
+</html>

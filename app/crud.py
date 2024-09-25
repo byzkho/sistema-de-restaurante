@@ -21,3 +21,6 @@ def crear_mesa(db: Session, mesa: schemas.MesaBase):
     db.commit()
     db.refresh(db_mesa)
     return db_mesa
+
+def get_mesas(db: Session):
+    return db.query(models.Mesa).all()
